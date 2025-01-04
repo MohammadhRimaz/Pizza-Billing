@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../services/api";
-import PrintInvoiceButton from "./InvoicePrint";
+import PrintButton from "./PrintButton";
 
 function InvoiceManagement() {
   const [items, setItems] = useState([]);
@@ -20,7 +20,7 @@ function InvoiceManagement() {
       const response = await axios.get("/items");
       setItems(response.data);
     } catch (error) {
-      console.error("Error fetching item: ", error);
+      console.error("Error fetching items:", error);
     }
   };
 
@@ -64,14 +64,14 @@ function InvoiceManagement() {
       };
       await axios.post("/invoices", invoiceData);
       alert("Invoice created successfully!");
-      // Reset Form
+      // Reset form
       setCustomerName("");
       setInvoiceItems([]);
       setTotal(0);
       setTax(0);
       setGrandTotal(0);
     } catch (error) {
-      console.error("Error creating invoice: ", error);
+      console.error("Error creating invoice:", error);
     }
   };
 
@@ -81,7 +81,7 @@ function InvoiceManagement() {
 
   return (
     <div>
-      <h2>Invoice Mangement</h2>
+      <h2>Invoice Management</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="form-group">
           <label>Customer Name</label>
@@ -98,7 +98,6 @@ function InvoiceManagement() {
           <select
             className="form-control"
             onChange={(e) => addItemToInvoice(e.target.value)}
-            required
           >
             <option value="">Select Item</option>
             {items.map((item) => (
@@ -109,7 +108,6 @@ function InvoiceManagement() {
           </select>
         </div>
       </form>
-
       <table className="table mt-4">
         <thead>
           <tr>
@@ -124,7 +122,7 @@ function InvoiceManagement() {
           {invoiceItems.map((item, index) => (
             <tr key={index}>
               <td>{item.name}</td>
-              <td>{item.price}</td>
+              <td>${item.price}</td>
               <td>
                 <input
                   type="number"
@@ -149,7 +147,6 @@ function InvoiceManagement() {
           ))}
         </tbody>
       </table>
-
       <div className="mt-4">
         <h5>Summary</h5>
         <p>Subtotal: ${total.toFixed(2)}</p>
@@ -167,13 +164,13 @@ function InvoiceManagement() {
       </div>
 
       {/* Print Button */}
-      {/* <PrintInvoiceButton
+      <PrintButton
         customerName={customerName}
         invoiceItems={invoiceItems}
         total={total}
         tax={tax}
         grandTotal={grandTotal}
-      /> */}
+      />
     </div>
   );
 }
