@@ -75,6 +75,13 @@ function InvoiceManagement() {
     }
   };
 
+  const handleRemoveItemById = (idToRemove) => {
+    const updatedInvoiceItems = invoiceItems.filter(
+      (item) => item.id !== idToRemove
+    );
+    setInvoiceItems(updatedInvoiceItems);
+  };
+
   useEffect(() => {
     calculateTotals();
   }, [invoiceItems]);
@@ -100,8 +107,8 @@ function InvoiceManagement() {
             onChange={(e) => addItemToInvoice(e.target.value)}
           >
             <option value="">Select Item</option>
-            {items.map((item) => (
-              <option key={item.id} value={item.id}>
+            {items.map((item, index) => (
+              <option key={item.id || `item-${index}`} value={item.id}>
                 {item.name} - ${item.price}
               </option>
             ))}
@@ -120,7 +127,7 @@ function InvoiceManagement() {
         </thead>
         <tbody>
           {invoiceItems.map((item, index) => (
-            <tr key={index}>
+            <tr key={item.id}>
               <td>{item.name}</td>
               <td>${item.price}</td>
               <td>
@@ -136,9 +143,7 @@ function InvoiceManagement() {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() =>
-                    setInvoiceItems(invoiceItems.filter((_, i) => i !== index))
-                  }
+                  onClick={() => handleRemoveItemById(item.id)}
                 >
                   Remove
                 </button>

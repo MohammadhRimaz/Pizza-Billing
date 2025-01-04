@@ -6,6 +6,7 @@ import (
 	"pizza-billing-backend/models"
 	"pizza-billing-backend/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "modernc.org/sqlite"
@@ -33,6 +34,17 @@ func main() {
 
 	// Set up the router
 	router := gin.Default()
+
+	// Enable CORS for all routes
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowMethods: []string{"GET","POST","PUT","DELETE","OPTIONS"},
+		AllowHeaders: []string{"Origin","Content-Type","Authorization"},
+		ExposeHeaders: []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
+	// Set up other routes
 	routes.SetupRouter(router)
 
 	// Start the server

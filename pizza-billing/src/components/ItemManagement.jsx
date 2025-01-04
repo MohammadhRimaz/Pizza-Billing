@@ -25,8 +25,15 @@ function ItemManagement() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure the price is a number (parse it)
+    const newItem = {
+      ...formData,
+      price: parseFloat(formData.price), // Convert price to number
+    };
+
     try {
-      await axios.post("/items", formData);
+      await axios.post("/items", newItem);
       setFormData({ name: "", type: "", price: "" });
       fetchItems();
     } catch (error) {
@@ -35,11 +42,20 @@ function ItemManagement() {
   };
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Do you want delete this item?");
+    if (!confirmDelete) return;
+
     try {
-      await axios.delete(`/items/${id}`);
-      fetchItems();
+      const response = await axios.delete(`/items/${id}`);
+      if (response.status === 200) {
+        alert(response.data.message || "Item deleted successfully!");
+        fetchItems(); // Refresh the items list
+      } else {
+        alert("Failed to delete the item!");
+      }
     } catch (error) {
       console.error("Error deleting item: ", error);
+      alert("An error occurred while trying to delete the item.");
     }
   };
 
@@ -61,7 +77,7 @@ function ItemManagement() {
         <div className="form-group">
           <label>Type</label>
           <select
-            type="type"
+            name="type"
             className="form-control"
             value={formData.type}
             onChange={handleInputChange}
