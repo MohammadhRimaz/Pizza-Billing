@@ -60,7 +60,7 @@ function ItemManagement() {
   };
 
   return (
-    <div>
+    <div className="p-5">
       <h2>Item Management</h2>
       <form onSubmit={handleFormSubmit} className="mb-4">
         <div className="form-group">
@@ -84,9 +84,9 @@ function ItemManagement() {
             required
           >
             <option value="">Select Type</option>
-            <option value="pizza">Pizza</option>
-            <option value="topping">Topping</option>
-            <option value="bevarages">Bevarages</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Topping">Topping</option>
+            <option value="beverages">Bevarages</option>
           </select>
         </div>
         <div className="form-group">

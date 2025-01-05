@@ -7,6 +7,44 @@
   pointer-events: none;
 }
 
+.hero-image-container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  text-align: left;
+  gap: 120px;
+  margin-top: 40px;
+}
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.navbar-brand {
+  font-size: xx-large;
+}
+
+.navbar-nav {
+  font-size: larger;
+}
+
+@media (max-width: 991px) {
+  .hero-image-container {
+    display: grid;
+    grid-column: auto;
+    gap: 10px;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -32,6 +70,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
